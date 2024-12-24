@@ -31,6 +31,7 @@ import time
 # Used to introduce delays (time.sleep()), simulating real-time data processing.
 
 
+
 #Begin Model
 
 # Function to simulate real-time processing
@@ -57,20 +58,27 @@ def process_data_realtime(csv_file, dt, initial_theta=0.5, initial_mu=0.0, initi
 
         # Predict the next state
         prediction = X_t + theta * (mu - X_t) * dt
-
+        # O.U Algorithm prediction formula: X_{t+1} this to the left is the variable we are guessing = X_t (the past one) + theta (speed of mean reversion) times (mu (the long term mean) - X_t) * dt (the time interval)]
+        # predicts where the price should move based on the current state, mean reversion speed sigma, and long term mean 𝜇
+        
         # Output results
         print(f"Date: {dates[t]}, Price: {X_t_next:.2f}, Predicted: {prediction:.2f}, "
               f"Theta: {theta:.3f}, Mu: {mu:.3f}, Sigma: {sigma:.3f}")
+        
+        # Above: Outputs the current date, observed price, predicted price, and updated parameters.
 
-        # Update current state
+        # Update current state. Updates Xt to the new observed price for the next iteration.
         X_t = X_t_next
 
         # Pause to simulate real-time (optional)
-        time.sleep(0.1)  # Adjust to control speed of simulation
+        # time.sleep(0.1)  # Adjust to control speed of simulation. Introduces a short delay (0.1 seconds) to simulate real-time processing.
+        # In practice, this would match the frequency of live data arrival (e.g., 1 second, 1 minute).
 
 # Example Usage
-# Ensure you have a CSV file with columns 'Date' and 'Price'
+# Ensure you have a CSV file with columns 'Day' and 'Spread'
 csv_file_path = 'HO_CL_PRICESpread.csv'  # Replace with your file path
 dt = 1  # Time step in days (adjust based on your data granularity)
 
-process_data_realtime(csv_file_path, dt)
+process_data_realtime(csv_file_path, dt) #calls the function to make it work, now that we've defined it.
+
+# Code to save to CSV file
